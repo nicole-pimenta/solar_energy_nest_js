@@ -1,6 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CalculationRepository } from './calculation.repository';
 import { CreateDto } from './dto/Create.dto';
+import { CalculationEntity } from './entities/calculation.entity';
+import { v4 as uuid } from 'uuid';
 
 @Controller('/')
 export class CalculationController {
@@ -8,8 +10,15 @@ export class CalculationController {
 
   @Post()
   async create(@Body() payload: CreateDto) {
-    this.calculationRepository.save(payload);
-    return { status: payload };
+    const calculationEntity = new CalculationEntity();
+
+    calculationEntity.energy = payload.energy;
+    calculationEntity.height = payload.height;
+    calculationEntity.width = payload.width;
+    calculationEntity.id = uuid();
+
+    this.calculationRepository.save(calculationEntity);
+    return calculationEntity;
   }
 
   @Get()
@@ -17,8 +26,8 @@ export class CalculationController {
     return this.calculationRepository.read();
   }
 
-  @Get()
-  async readById() {
-    return this.calculationRepository.readById();
+  @Get(':id')
+  async readById(@Param('id') id: string) {
+    return this.calculationRepository.readById(id);
   }
 }

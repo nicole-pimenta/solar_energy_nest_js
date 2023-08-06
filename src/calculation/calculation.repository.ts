@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { CalculationEntity } from './entities/calculation.entity';
 
 @Injectable()
 export class CalculationRepository {
-  private database = [];
+  private database: CalculationEntity[] = [];
 
-  async save(calculation) {
+  async save(calculation: CalculationEntity) {
     this.database.push(calculation);
   }
 
@@ -12,7 +13,9 @@ export class CalculationRepository {
     return this.database;
   }
 
-  async readById() {
-    return this.database;
+  async readById(id: string) {
+    const findItem = this.database.find((item) => item.id === id);
+
+    return findItem !== undefined;
   }
 }
