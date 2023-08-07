@@ -6,13 +6,16 @@ export type CalculationDocument = HydratedDocument<Calculation>;
 @Schema()
 export class Calculation {
   @Prop()
-  energy: number;
+  solarPanelQuantity: number;
 
   @Prop()
-  width: number;
+  microinverterQuantity: number;
 
   @Prop()
-  height: string;
+  solarPanelLength: number;
+
+  @Prop()
+  availableArea: number;
 }
 
 export const CalculationSchema = SchemaFactory.createForClass(Calculation);

@@ -1,11 +1,12 @@
 import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { CreateDto } from './dto/Create.dto';
+
 import {
   Calculation,
   CalculationDocument,
 } from './entities/calculation.entity';
+import { DataDto } from './dto/Data.dto';
 
 @Injectable()
 export class CalculationService {
@@ -14,7 +15,7 @@ export class CalculationService {
     private calculationModel: Model<CalculationDocument>,
   ) {}
 
-  create(createDto: CreateDto): Promise<Calculation> {
+  create(createDto: DataDto): Promise<Calculation> {
     const calculation = new this.calculationModel(createDto);
     return calculation.save();
   }
